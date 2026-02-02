@@ -33,12 +33,10 @@ import {
   useGetOwnedRookie,
   useListRookieNFT,
 } from "@/hooks/queries/use-rookie";
-import { useQueryClient } from "@tanstack/react-query";
 
 export function NFTMarketplace() {
   const suiClient = useSuiClient();
   const account = useCurrentAccount();
-  const queryClient = useQueryClient();
   const { data: ownedRookieNFT } = useGetOwnedRookie(
     suiClient,
     account?.address,
@@ -298,7 +296,7 @@ export function NFTMarketplace() {
           {!ownedRookieNFT?.length && (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                You don't own any NFTs yet.
+                You don&apos;t own any NFTs yet.
               </p>
             </div>
           )}
