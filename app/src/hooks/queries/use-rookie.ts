@@ -25,6 +25,7 @@ export const useGetMarketPlaceNFT = (suiClient: SuiClient) => {
 
       const objectIds = dfKeys.data.map((d) => d.objectId);
 
+      // sequent calling
       const nftResponse = await suiClient.multiGetObjects({
         ids: objectIds,
         options: { showContent: true },
@@ -250,27 +251,6 @@ export const useBuyRookieNFT = (suiClient: SuiClient) => {
       recipient: string;
     }) => {
       const tx = new Transaction();
-
-      // 0.
-      const suiCoin = tx.add(
-        coinWithBalance({
-          type: "0x2::sui::SUI",
-          balance: payment,
-          useGasCoin: true,
-        }),
-      );
-
-      // 1.
-      const rookieNFT = tx.moveCall({
-        target: `${PUBLISHED_AT}::lesson_one::buy`,
-        arguments: [
-          tx.object(NFT_MARKET_PLACE_ID),
-          tx.object(rookieNFTID),
-          suiCoin,
-        ],
-      });
-
-      tx.transferObjects([rookieNFT], recipient);
 
       console.log({ tx: tx.getData().commands });
       await signAndExecuteTransaction({ transaction: tx });
